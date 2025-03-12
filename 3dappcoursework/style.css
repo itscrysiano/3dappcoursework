@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #main_3d_image {
-    background-image: url(assets/images/main_3D.jpg);
+    background-image: url(assets/images/main_philadelphiaeagles_header.jpg);
     background-repeat: no-repeat;
     height: 201px;
 }
@@ -254,7 +254,7 @@ There is plenty more styling to do than indicated here, in mobile it still defau
     }
 
     #main_3d_image {
-        background-image: url(assets/images/main_3D_768.jpg);
+        background-image: url(assets/images/main_philadelphiaeagles_header.jpg);
         background-repeat: no-repeat;
         height: 288px;
     }
@@ -312,7 +312,8 @@ There is plenty more styling to do than indicated here, in mobile it still defau
     }
 
     #main_3d_image {
-        background-image: url(assets/images/main_3D_970.jpg);
+        background-image: url(assets/images/main_philadelphiaeagles_header.jpg);
+        background-size: cover;
         background-repeat: no-repeat;
         height: 363px;
     }
@@ -429,10 +430,12 @@ There is plenty more styling to do than indicated here, in mobile it still defau
         background-color: rgb(185, 185, 178);
     }
 
-    #main_3d_image {
-        background-image: url(assets/images/main_3D_1400a.jpg);
+    #main_3D_image {
+        background-image: url(assets/images/main_philadelphiaeagles_header-ezgif.com-webp-to-jpg-converter.jpg);
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
-        height: 500px;
+        height: 600px;
     }
 
     #main_text {

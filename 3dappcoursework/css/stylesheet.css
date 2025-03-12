@@ -1,5 +1,6 @@
 #main_3d_image {
-background-image: url(../assets/images/main_3D.jpg);
+background-image: url(/.../assets/images/main_philadelphiaeagles_header.jpg);
+background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
 /* The div block for the main_3d_image has no vertical size, 
