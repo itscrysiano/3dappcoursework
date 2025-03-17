@@ -17,7 +17,7 @@
 */
 body {
     padding-bottom: 5px;
-    background-color: rgb(245, 164, 98);
+    background-color: #fefefe;
 }
 
 .main_contents {
@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .custom-heading {
-    font-size: 150px;
+    font-size: 100px;
     font-weight: bold;
 }
 #main_text {

@@ -26,7 +26,7 @@
 </head>
     <body id="bodyColor">
       <!-- Main Nav Bar -->
-      <nav class="navbar navbar-expand-sm bg-light navbar-light">
+      <nav class="navbar navbar-expand-sm bg-white navbar-light">
           <div class="container-fluid"> 
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                       <span class="navbar-toggler-icon"></span>
@@ -51,34 +51,51 @@
               </div>
           </div>
       </nav>
-    
+
+      <hr>
+
+      <div class="mt-1 p-5 bg-white text-black text-center">
+        <h1 class="custom-heading">SUPERBOWL CHAMPIONS</h1>
+      </div>
+
+      <hr>
+
       <!-- Score Display Navbar -->
-<nav class="navbar bg-white py-3">
-  <div class="container d-flex justify-content-between align-items-center">
+<nav class="navbar bg-white py-3 justify-content-center">
+  <div class="container d-flex justify-content-between align-items-center felx-wrap gap-0 w-50 mx=auto">
     
-    <!-- Eagles Logo & Score -->
-    <div class="d-flex align-items-center">
-      <img src="eagles-logo.png" alt="Eagles Logo" class="me-2" style="height: 50px;">
-      <h3 class="mb-0 text-primary">40</h3>
+     <!-- Chiefs Logo & Score -->
+     <div class="d-flex justify-content-center  align-items-center">
+      <img src="assets/images/chiefs_icon.png" alt="Chiefs Logo" class="ms-2" style="height: 50px; width: auto;">
+      <h3 class="mb-0 text-danger ms-2 fw-bold fs-4">22</h3>
     </div>
 
     <!-- VS Separator -->
-    <h3 class="mb-0">VS</h3>
+    <h2 class="mb-0 text-black">VS</h2>
 
-    <!-- Chiefs Logo & Score -->
-    <div class="d-flex align-items-center">
-      <h3 class="mb-0 text-danger">22</h3>
-      <img src="chiefs-logo.png" alt="Chiefs Logo" class="ms-2" style="height: 50px;">
-    </div>
+      <!-- Eagles Logo & Score -->
+      <div class="d-flex justify-content-center align-items-center">
+        <h3 class="mb-0 text-primary text-primary me-2 fw-bold fs-4">40</h3>
+        <img src="assets/images/eagles_icon.png" alt="Eagles Logo" class="me-2" style="height: 80px; width: auto;">
+      </div>
+
+   
 
   </div>
 </nav>
     
-<br>
+<hr>
 
-<div class="mt-1 p-5 bg-white text-black text-center">
-  <h1 class="custom-heading">SUPERBOWL CHAMPS</h1>
-</div>
+<div id="videoCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+
+    <!-- First Video Slide -->
+    <div class="carousel-item active">
+      <video class="d-block w-100" autoplay loop muted>
+        <source src="video1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
 
 <div id="main_3D_image">
 	<div id="main_text" class="col-xs-12">
