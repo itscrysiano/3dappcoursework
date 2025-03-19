@@ -7,8 +7,8 @@
 
 /* Method to declare your own fonts */
 @font-face {
-    font-family: cocaColaFont;
-    src: url(assets/fonts/lokicola.ttf);
+    font-family: eaglesFont;
+    src: url(assets/fonts/Athletica.ttf);
 }
 
 
@@ -28,13 +28,18 @@ body {
 /* Some simple CSS rules for styling p, h1 to h6, etc. in the main contents container
 */
 
+header {
+    font-family: eaglesFont;
+    font-size: 45px;
+    color: #fefefe;
+}
+
 p {
 	font-family: 'Open Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Oswald', sans-serif; 
-	/* font-family: cocaColaFont; */
 }
 
 #main_3d_image {
@@ -86,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .logo h1 {
-    font-family: cocaColaFont; /* You don't need to repeat this for each media query as it is propagated */
+    font-family: eaglesFont; /* You don't need to repeat this for each media query as it is propagated */
     font-size: 29px;
     margin: 0;
     margin-top: -10px;
@@ -98,7 +103,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
 .logo h2 {
-    font-family: cocaColaFont;
+    font-family: eaglesFont;
     font-size: 31px;
     margin-top: -6px;
     margin-bottom: -15px;
@@ -128,9 +133,9 @@ h1, h2, h3, h4, h5, h6 {
 /* CSS rule to overwrite the navbar-default background and border color — again, helps to stop your site looking like a Bootstrap clone! 
 */
 
-.navbar_coca_cola {
-    background-color: #760003; /* Set navbar background color */
-    /* border-color: yellow; Sets the navbar border color */
+.navbar_eagles {
+    background-color: #004C54; /* Set navbar background color */
+    border-color: black; /*Sets the navbar border color */
     /* border-style: solid; */
     border-width: 0px;
     min-height: 70px;
@@ -138,13 +143,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* CSS rule to overwrite the navbar-brand font color
 */
-.navbar_coca_cola .navbar-brand {
+.navbar_eagles .navbar-brand {
     color: rgb(245, 235, 235);
  }
     
 /* CSS rule to overwrite the navbar-brand font hover color
 */
-.navbar_coca_cola .navbar-brand:hover {
+.navbar_eagles .navbar-brand:hover {
     color: green;
 }
 
@@ -157,28 +162,28 @@ Bootstrapbay Bootstrap Tutorial Part 11 — CSS Modifications to Navbar and Butt
 There is plenty more styling to do than indicated here, in mobile it still defaults to Bootstrap CSS on dropdown!
 */
 
-.navbar_coca_cola .navbar-nav > li > a {
+.navbar_eagles .navbar-nav > li > a {
     color: white;  
 }
 
 /* CSS rule to overwrite the bootstrap.css text hover color on the navbar
 */
-.navbar_coca_cola .navbar-nav > li > a:hover, 
-.navbar_coca_cola .navbar-nav > li > a:focus {
-    color: green;  
+.navbar_eagles .navbar-nav > li > a:hover, 
+.navbar_eagles .navbar-nav > li > a:focus {
+    color: #046A38;  
 }
 
-.navbar_coca_cola .navbar-nav .nav-item {
+.navbar_eagles .navbar-nav .nav-item {
     margin-top: 0px;
 }
 
 /* CSS rule to overwrite the bootstrap.css rules for setting the active font color and background colour
 */
-.navbar_coca_cola .navbar-nav .nav-item > .active, 
-.navbar_coca_cola .navbar-nav > .active > a:hover, 
-.navbar_coca_cola .navbar-nav > .active > a:focus {
-    color:  #760003; /* Font color for active font */
-    background-color: #3399ff; /* Blue color for background */
+.navbar_eagles .navbar-nav .nav-item > .active, 
+.navbar_eagles .navbar-nav > .active > a:hover, 
+.navbar_eagles .navbar-nav > .active > a:focus {
+    color:  #ACC0C6; /* Font color for active font */
+    background-color: #ffffff00 /* Background color */
 }
 
 /* A set of CSS rules to change the Bootstrap defaults for the menu link text color, hover, background, focus
@@ -186,21 +191,21 @@ There is plenty more styling to do than indicated here, in mobile it still defau
     
 /* CSS rule to overwrite the bootstrap.css text hover color on the navbar
 */
-.navbar_coca_cola .navbar-nav > li > a:hover, 
-.navbar_coca_cola  .navbar-nav > li > a:focus {
+.navbar_eagles .navbar-nav > li > a:hover, 
+.navbar_eagles .navbar-nav > li > a:focus {
     color: green;  
 }
 
 /* These next two CSS rules control the style of the icon bar */
-.navbar_coca_cola .navbar-toggler {
+.navbar_eagles .navbar-toggler {
     border-color: white;
 }
 
-.navbar_coca_cola  .navbar-toggler-icon {
+.navbar_eagles  .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1.0)' stroke-width='4' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-.navbar_coca_cola .navbar-toggler {
+.navbar_eagles .navbar-toggler {
     outline: none !important;
 }
 
@@ -211,17 +216,19 @@ There is plenty more styling to do than indicated here, in mobile it still defau
     text-align: -webkit-left;
     background-color: #eb9a91;
     margin-top: 20px; /* Experiment to move the dropdown menu down */
+    min-width: auto !important;
+    width: fit-content !important;
 }
 
 .dropdown-menu
 .dropdown-item {
-    color: #f1ee08;
+    color: #000000; 
 }
 
 .dropdown-menu
 .dropdown-item:hover {
     color: #030303;
-    background-color: #e98074;
+    background-color: #ACC0C6;
 }
 
 /* CSS rule to style the footer */
@@ -292,7 +299,7 @@ There is plenty more styling to do than indicated here, in mobile it still defau
     }
 
     .navbar-text > p {
-        color: rgb(228, 75, 15);
+        color: rgb(6, 6, 6);
         font-size: 18px;
     }
 
