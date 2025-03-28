@@ -365,7 +365,7 @@ There is plenty more styling to do than indicated here, in mobile it still defau
     }
 
     .logo h1 {
-        font-family: cocaColaFont; /* You don't need to repeat this for each media query as it is propogated */
+        font-family: eaglesFont; /* You don't need to repeat this for each media query as it is propogated */
         font-size: 41px;
         margin: 0;
         margin-top: 0px;
@@ -527,7 +527,7 @@ There is plenty more styling to do than indicated here, in mobile it still defau
 
     /* CSS rule to style the footer */
     .footer {
-        background-color: grey;
+        background-color: rgb(255, 255, 255);
         height: 75px;
     }
 
