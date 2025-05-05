@@ -468,6 +468,27 @@ There is plenty more styling to do than indicated here, in mobile it still defau
         font-size: 15px;
     }
 
+    .card-header-model {
+        font-size: 15px;
+        margin-left: 25px;
+    }
+
+    .card-body {
+        padding: 10px;
+        align-items: center;
+    }
+    
+    .cardModel {
+        position: relative;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-left: 25px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
     .card {
         border: 0px solid rgba(0,0,0,.125);
         /* border-radius: .25rem;*/

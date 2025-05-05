@@ -25,7 +25,7 @@ function init(){
   */
 
   camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
-  camera.position.set(-5, 25, 20);
+  camera.position.set(27.182, 12.045, -1.220);
 
   // Set up audio for the scene
   const listener = new THREE.AudioListener();
@@ -73,9 +73,9 @@ directionalLight.position.set(5, 5, 5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
 
-const pointLight = new THREE.PointLight(0x777777, 0.3, 30);
+/*const pointLight = new THREE.PointLight(0x777777, 0.3, 30);
 pointLight.position.set(3, 2, 5);
-scene.add(pointLight);
+scene.add(pointLight);*/
 
 //Add orbit controls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -190,6 +190,23 @@ window.addEventListener('resize', resize, false);
 
 animate();
 }
+
+/*function applyMaterials(model) {
+  // Define materials for different parts of the model
+  let body1 = new THREE.MeshStandardMaterial({
+    map: leatherTexture,     
+    bumpScale: 0.05,
+    metalness: 0.0,                        
+    roughness: 0.4,                          
+  });
+
+  let cube1 = new THREE.MeshStandardMaterial({
+    map: leatherTexture,    
+    normalMap: leatherNormal1,    
+    bumpScale: 0.05,
+    metalness: 0.0,                        
+    roughness: 0.4,                          
+  });*/
 
 function toggleWireframe(enable) {
   scene.traverse(function (object) {
