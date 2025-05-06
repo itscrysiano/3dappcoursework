@@ -12,8 +12,15 @@ function init(){
   clock = new THREE.Clock();
  
   scene = new THREE.Scene();
+
+  const textureLoader = new THREE.TextureLoader();
+  textureLoader.load('assets/textures/green-gradient-texture.jpg',
+    function(texture) {
+    scene.background = texture;
+
+  });
  
-  scene.background = new THREE.Color(0xacc0c6);
+  /*scene.background = new THREE.Color(0xacc0c6);
  
   /*
   const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x4B0082, roughness: 1 });

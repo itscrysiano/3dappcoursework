@@ -89,9 +89,10 @@ wireframeBtn.addEventListener('click', function() {
   toggleWireframe(isWireframe);
 })
 
+/*
 // Model Animation
 document.getElementById("switchModel").addEventListener('click', function () {
-  if (currentModelPath === 'assets/models/eagles-football-jersey-green.gltf' && loadedModel) {
+  if (currentModelPath === 'assets/models/eagles-football-jersey-white.gltf' && loadedModel) {
     if (secondModelActions.length > 0) {
       secondModelActions.forEach(action => {
         action.reset();
@@ -105,92 +106,125 @@ document.getElementById("switchModel").addEventListener('click', function () {
     }
   } else {
     loadModel('assets/models/eagles-football-jersey-green.gltf', true);
-    currentModelPath = 'assets/models/eagles-football-jersey-green.gltf';
+    currentModelPath = 'assets/models/eagles-football-jersey-white.gltf';
   }
 });
+*/
 
-//Loads the giTF model
-const loader = new THREE.GLTFLoader();
-function loadModel(modelPath, isAnimated = false) {
-  if (loadedModel) {
-    scene.remove(loadedModel);
-    loadedModel.traverse(obj => {
-      if (obj.geometry) obj.geometry.dispose();
-      if (obj.material) {
-        if (Array.isArray(obj.material)) {
-          obj.material.forEach(m => m.dispose());
-        } else {
-          obj.material.dispose();
-        }
-      }
-    });
-  }
+ // Textures and Materials
+ const greenTexture = new THREE.TextureLoader().load('assets/materials/jersey-green-final-flipped-1.png');
+ greenTexture.flipY = false;
+ const greenJerseyMaterial = new THREE.MeshStandardMaterial({
+   map: greenTexture,
+   metalness: 0.00,
+   roughness: 1.00,
+ });
 
-  loader.load(modelPath, function (giTF) {
-    const model = giTF.scene;
-    model.position.set(0, 0, 0);
-    scene.add(model);
-    loadedModel = model;
+ const whiteTexture = new THREE.TextureLoader().load('assets/materials/jersey-white-final-flipped-1.png');
+ whiteTexture.flipY = false;
+ const whiteJerseyMaterial = new THREE.MeshStandardMaterial({
+   map: whiteTexture,
+   metalness: 0.00,
+   roughness: 1.00,
+ });
 
-    const mixerInstance = new THREE.AnimationMixer(model);
-    const animations = giTF.animations;
-    const modelActions = [];
+ // Button: Switch to white jersey
+ document.getElementById("switchModel").addEventListener('click', function () {
+   loadModel('assets/models/eagles-football-jersey-green.gltf', true, whiteJerseyMaterial);
+   currentModelPath = 'assets/models/eagles-football-jersey-white.gltf';
+ });
 
-    animations.forEach(clip => {
-      const action = mixerInstance.clipAction(clip);
-      modelActions.push(action);
-    });
+ const loader = new THREE.GLTFLoader();
 
-    if (isAnimated) {
-      secondModelMixer = mixerInstance;
-      secondModelActions = modelActions;
+function loadModel(modelPath, isAnimated = false, materialToApply = null) {
+ if (loadedModel) {
+   scene.remove(loadedModel);
+   loadedModel.traverse(obj => {
+     if (obj.geometry) obj.geometry.dispose();
+     if (obj.material) {
+       if (Array.isArray(obj.material)) {
+         obj.material.forEach(m => m.dispose());
+       } else {
+         obj.material.dispose();
+       }
+     }
+   });
+ }
 
-      if (secondModelActions.length > 0) {
-        secondModelActions.forEach(action => {
-          action.reset();
-          action.setLoop(THREE.LoopOnce);
-          action.clampWhenFinished = true;
-          action.play();
-        });
+ loader.load(modelPath, function (giTf) {
+   const model = giTf.scene;
+   model.position.set(0, 0, 0);
+   scene.add(model);
+   loadedModel = model;
 
-        if (secondSound.isPlaying) secondSound.stop();
-        secondSound.play();
-      } else {
-        console.warn('No animations found in animated model.');
-      }
-    } else {
-      mixer = mixerInstance;
-      actions = modelActions;
+   model.traverse((child) => {
+     if (child.isMesh) {
+       console.log("Mesh name:", child.name);
+       if (child.name === 'jersey' && materialToApply) {
+         child.material = materialToApply;
+         child.material.needsUpdate = true;
+         console.log('Applied material to:', child.name);
+       }
+     }
+   });
 
-      if (actions.length > 0 && mode === "open") {
-        actions.forEach(action => {
-          action.timeScale = 1;
-          action.reset();
-          action.play();
+   const mixerInstance = new THREE.AnimationMixer(model);
+   const animations = giTf.animations;
+   const modelActions = [];
 
-          if (sound.isPlaying) sound.stop();
-          sound.play();
-        });
-      }
-    }
-    applyMaterials(model);
-  }, undefined, function (error) {
-    console.error("Error loading model:", error);
-  });
+   animations.forEach(clip => {
+     const action = mixerInstance.clipAction(clip);
+     modelActions.push(action);
+   });
+
+   if (isAnimated) {
+     secondModelMixer = mixerInstance;
+     secondModelActions = modelActions;
+
+     if (secondModelActions.length > 0) {
+       secondModelActions.forEach(action => {
+         action.reset();
+         action.setLoop(THREE.LoopOnce);
+         action.clampWhenFinished = true;
+         action.play();
+       });
+
+       if (secondSound.isPlaying) secondSound.stop();
+       secondSound.play();
+     }
+   } else {
+     mixer = mixerInstance;
+     actions = modelActions;
+
+     if (actions.length > 0 && mode === "open") {
+       actions.forEach(action => {
+         action.timeScale = 1;
+         action.reset();
+         action.play();
+
+         if (sound.isPlaying) sound.stop();
+         sound.play();
+       });
+     }
+   }
+
+ }, undefined, function (error) {
+   console.error("Error loading model:", error);
+ });
 }
 
-document.getElementById("btn").addEventListener('click', function () {
-  loadModel('assets/models/eagles-football-jersey-green.gltf', true);
-  currentModelPath = 'assets/models/eagles-football-jersey-green.gltf';
-});
+ // Button: Load default green jersey again
+ document.getElementById("btn").addEventListener('click', function () {
+   loadModel('assets/models/eagles-football-jersey-green.gltf', true, greenJerseyMaterial);
+   currentModelPath = 'assets/models/eagles-football-jersey-green.gltf';
+ });
 
-loadModel('assets/models/eagles-football-jersey-green.gltf', true);
+ // Initial load
+ loadModel('assets/models/eagles-football-jersey-green.gltf', true, greenJerseyMaterial);
 
-window.addEventListener('resize', resize, false);
-
-animate();
+ window.addEventListener('resize', resize, false);
+ animate();
 }
-
 
 function toggleWireframe(enable) {
   scene.traverse(function (object) {
