@@ -12,34 +12,17 @@ function init(){
   clock = new THREE.Clock();
  
   scene = new THREE.Scene();
+
+  const textureLoader = new THREE.TextureLoader();
+  textureLoader.load('assets/textures/jersey-texture.png',
+    function(texture) {
+    scene.background = texture;
+  });
  
-  scene.background = new THREE.Color(0xacc0c6);
- 
-  /*
-  const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x4B0082, roughness: 1 });
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), groundMaterial);
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -1;
-  ground.receiveShadow = true;
-  scene.add(ground);
-  */
 
   camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
   camera.position.set(3.873, 6.058, -4.269);
 
-  // Set up audio for the scene
-  const listener = new THREE.AudioListener();
-  camera.add(listener);
-
-  sound = new THREE.Audio(listener);
-  secondSound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load('assets/canOpenSound_01.mp3', function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false)
-    sound.setVolume(1.0);
-  });
 
 //Set up renderer for scene
 const canvas = document.getElementById('threeContainer');
@@ -47,35 +30,24 @@ renderer = new THREE.WebGLRenderer({canvas: canvas});
 renderer.setPixelRatio( window.devicePixelRatio );
 resize();
 
-const topLight = new THREE.DirectionalLight(0xFFFFFF, 0.3);
-topLight.position.set(1.7, 4.8, 4);
-topLight.target.position.set(0, 0, 0);
-scene.add(topLight);
-scene.add(topLight.target);
+// Lights
+const keyLight = new THREE.DirectionalLight(0xffffff, 1);
+keyLight.position.set(5, 10, 5);
+scene.add(keyLight);
 
-const rightLight = new THREE.PointLight(0xFFFFFF, 0.5, 30);  
-rightLight.position.set(3.2, 0.2, 5);
-scene.add(rightLight);
 
-const sideLight = new THREE.PointLight(0xFFFFFF, 4, 30);  
-sideLight.position.set(5, 0, 0);
-scene.add(sideLight);
+const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+fillLight.position.set(-5, 5, 5);
+scene.add(fillLight);
 
-const leftLight = new THREE.PointLight(0xFFFFFF, 3, 20);  
-leftLight.position.set(-4, 0, 0);  
-scene.add(leftLight);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-scene.add(ambientLight);
+const backLight = new THREE.DirectionalLight(0xffffff, 0.2);
+backLight.position.set(0, 5, -5);
+scene.add(backLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
-directionalLight.position.set(5, 5, 5);
-directionalLight.castShadow = true;
-scene.add(directionalLight);
+const ambient = new THREE.AmbientLight(0xffffff, 0.2);
+scene.add(ambient);
 
-const pointLight = new THREE.PointLight(0x777777, 0.3, 30);
-pointLight.position.set(3, 2, 5);
-scene.add(pointLight);
 
 //Add orbit controls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -89,27 +61,6 @@ wireframeBtn.addEventListener('click', function() {
   toggleWireframe(isWireframe);
 })
 
-/*
-// Model Animation
-document.getElementById("switchModel").addEventListener('click', function () {
-  if (currentModelPath === 'assets/models/eagles-football-jersey-white.gltf' && loadedModel) {
-    if (secondModelActions.length > 0) {
-      secondModelActions.forEach(action => {
-        action.reset();
-        action.setLoop(THREE.LoopOnce);
-        action.clampWhenFinished = true;
-        action.play();
-      });
-
-      if (secondSound.isPlaying) secondSound.stop();
-      secondSound.play();
-    }
-  } else {
-    loadModel('assets/models/eagles-football-jersey-green.gltf', true);
-    currentModelPath = 'assets/models/eagles-football-jersey-white.gltf';
-  }
-});
-*/
 
  // Textures and Materials
  const greenTexture = new THREE.TextureLoader().load('assets/materials/jersey-green-final-flipped-1.png');

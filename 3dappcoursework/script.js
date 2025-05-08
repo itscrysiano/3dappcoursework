@@ -1,7 +1,10 @@
 var scene, camera, renderer, clock, mixer, actions = [], mode, isWireframe = false;
 let loadedModel;
-let secondModelMixer, secondModelActions = [];
+/*let secondModelMixer, secondModelActions = [];*/
 let sound, secondSound;
+let pillowModel;
+/*let pillowMixer;*/
+let mixers = []
 
 init();
 
@@ -17,20 +20,11 @@ function init(){
   textureLoader.load('assets/textures/stadium-texture.png',
     function(texture) {
     scene.background = texture;
+    scene.environment = envMap;
 
   });
  
-  /*scene.background = new THREE.Color(0xacc0c6);
- 
-  /*
-  const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x4B0082, roughness: 1 });
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), groundMaterial);
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -1;
-  ground.receiveShadow = true;
-  scene.add(ground);
-  */
-
+// Camera
   camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
   camera.position.set(27.182, 12.045, -1.220);
 
@@ -42,7 +36,7 @@ function init(){
   secondSound = new THREE.Audio(listener);
 
   const audioLoader = new THREE.AudioLoader();
-  audioLoader.load('assets/canOpenSound_01.mp3', function (buffer) {
+  audioLoader.load('assets/extras/nfl_theme_song.mp3', function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(false)
     sound.setVolume(1.0);
@@ -54,35 +48,40 @@ renderer = new THREE.WebGLRenderer({canvas: canvas});
 renderer.setPixelRatio( window.devicePixelRatio );
 resize();
 
-const topLight = new THREE.DirectionalLight(0xFFFFFF, 0.3);
+const topLight = new THREE.DirectionalLight(0xFFFFFF, 5);
 topLight.position.set(1.7, 4.8, 4);
 topLight.target.position.set(0, 0, 0);
 scene.add(topLight);
 scene.add(topLight.target);
 
-const rightLight = new THREE.PointLight(0xFFFFFF, 0.5, 30);  
-rightLight.position.set(3.2, 0.2, 5);
+const rightLight = new THREE.PointLight(0xFFFFFF, 0.5, 20);  
+rightLight.position.set(4, 0, 0);
 scene.add(rightLight);
 
-const sideLight = new THREE.PointLight(0xFFFFFF, 4, 30);  
+const sideLight = new THREE.PointLight(0xFFFFFF, 4, 50);  
 sideLight.position.set(5, 0, 0);
 scene.add(sideLight);
 
-const leftLight = new THREE.PointLight(0xFFFFFF, 3, 20);  
+const leftLight = new THREE.PointLight(0xFFFFFF, 3, 50);  
 leftLight.position.set(-4, 0, 0);  
 scene.add(leftLight);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
-directionalLight.position.set(5, 5, 5);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 10, 7.5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
 
-/*const pointLight = new THREE.PointLight(0x777777, 0.3, 30);
+const pointLight = new THREE.PointLight(0x777777, 0.3, 10);
 pointLight.position.set(3, 2, 5);
-scene.add(pointLight);*/
+scene.add(pointLight);
+
+const fillLight = new THREE.DirectionalLight(0xffffff, 1);
+fillLight.position.set(-5, 5, 5);
+scene.add(fillLight);
+
 
 //Add orbit controls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -96,7 +95,11 @@ wireframeBtn.addEventListener('click', function() {
   toggleWireframe(isWireframe);
 })
 
-// Model Animation
+// Pillow Button
+const addPillowBtn = document.getElementById("addPillow");
+addPillowBtn.addEventListener('click', addPillow);
+
+// Trophy Animation
 document.getElementById("switchModel").addEventListener('click', function () {
   if (currentModelPath === 'assets/models/superbowl_trophy_animation.glb' && loadedModel) {
     if (secondModelActions.length > 0) {
@@ -140,6 +143,7 @@ function loadModel(modelPath, isAnimated = false) {
     loadedModel = model;
 
     const mixerInstance = new THREE.AnimationMixer(model);
+    mixers.push(mixerInstance);
     const animations = giTF.animations;
     const modelActions = [];
 
@@ -180,12 +184,11 @@ function loadModel(modelPath, isAnimated = false) {
         });
       }
     }
-    applyMaterials(model);
-  }, undefined, function (error) {
-    console.error("Error loading model:", error);
+  
   });
 }
 
+//Spin Trophy Button
 document.getElementById("btn").addEventListener('click', function () {
   loadModel('assets/models/superbowl_trophy_animation.glb', true);
   currentModelPath = 'assets/models/superbowl_trophy.glb';
@@ -198,22 +201,6 @@ window.addEventListener('resize', resize, false);
 animate();
 }
 
-/*function applyMaterials(model) {
-  // Define materials for different parts of the model
-  let body1 = new THREE.MeshStandardMaterial({
-    map: leatherTexture,     
-    bumpScale: 0.05,
-    metalness: 0.0,                        
-    roughness: 0.4,                          
-  });
-
-  let cube1 = new THREE.MeshStandardMaterial({
-    map: leatherTexture,    
-    normalMap: leatherNormal1,    
-    bumpScale: 0.05,
-    metalness: 0.0,                        
-    roughness: 0.4,                          
-  });*/
 
 function toggleWireframe(enable) {
   scene.traverse(function (object) {
@@ -223,11 +210,53 @@ function toggleWireframe(enable) {
   });
 }
 
+//Pillow Animation
+function addPillow() {
+  if(pillowModel) {
+    scene.remove(pillowModel);
+    pillowModel = null;
+    console.log('pillow removed');
+    return;
+  }
+
+  const pillowLoader = new THREE.GLTFLoader();
+  pillowLoader.load('assets/models/pillow_animation_1.glb', function (gltf){
+    pillowModel = gltf.scene;
+    pillowModel.position.set(0, 0, 0);
+    pillowModel.scale.set(1, 1, 1); 
+    scene.add(pillowModel);
+
+    console.log('Loaded pillow model:', pillowModel);
+   
+    if (gltf.animations && gltf.animations.length > 0) {
+      console.log('Pillow animations:', gltf.animations);
+
+      const pillowMixer = new THREE.AnimationMixer(pillowModel);
+      gltf.animations.forEach((clip) => {
+        const action = pillowMixer.clipAction(clip);
+        action.setLoop(THREE.LoopOnce);
+        action.clampWhenFinished = true;
+        action.reset();
+        action.timeScale = 1;
+        action.play();
+      });
+
+      mixers.push(pillowMixer);
+
+    } else {
+      console.warn('No animations found in pillow GLB.');
+    }
+  }, undefined, function (error) {
+    console.error('Error loading pillow:', error);
+  });
+}
+
 function animate() {
   requestAnimationFrame(animate);
 
-  if (mixer) mixer.update(clock.getDelta());
-  if (secondModelMixer) secondModelMixer.update(clock.getDelta());
+  const delta = clock.getDelta();
+
+  mixers.forEach(m => m.update(delta));
 
 
 renderer.render(scene, camera);

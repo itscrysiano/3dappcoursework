@@ -14,39 +14,16 @@ function init(){
   scene = new THREE.Scene();
 
   const textureLoader = new THREE.TextureLoader();
-  textureLoader.load('assets/textures/green-gradient-texture.jpg',
+  textureLoader.load('assets/textures/helmet-background.png',
     function(texture) {
     scene.background = texture;
 
   });
  
-  /*scene.background = new THREE.Color(0xacc0c6);
- 
-  /*
-  const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x4B0082, roughness: 1 });
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), groundMaterial);
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -1;
-  ground.receiveShadow = true;
-  scene.add(ground);
-  */
 
-  camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
-  camera.position.set(3.873, 6.058, -4.269);
-
-  // Set up audio for the scene
-  const listener = new THREE.AudioListener();
-  camera.add(listener);
-
-  sound = new THREE.Audio(listener);
-  secondSound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load('assets/canOpenSound_01.mp3', function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false)
-    sound.setVolume(1.0);
-  });
+//Camera
+  camera = new THREE.PerspectiveCamera( 20, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  camera.position.set(27.182, 12.045, -1.220);
 
 //Set up renderer for scene
 const canvas = document.getElementById('threeContainer');
@@ -54,21 +31,22 @@ renderer = new THREE.WebGLRenderer({canvas: canvas});
 renderer.setPixelRatio( window.devicePixelRatio );
 resize();
 
-const topLight = new THREE.DirectionalLight(0xFFFFFF, 0.3);
+//Lights
+const topLight = new THREE.DirectionalLight(0xFFFFFF, 2);
 topLight.position.set(1.7, 4.8, 4);
 topLight.target.position.set(0, 0, 0);
 scene.add(topLight);
 scene.add(topLight.target);
 
-const rightLight = new THREE.PointLight(0xFFFFFF, 0.5, 30);  
+const rightLight = new THREE.PointLight(0xFFFFFF, 0.5, 10);  
 rightLight.position.set(3.2, 0.2, 5);
 scene.add(rightLight);
 
-const sideLight = new THREE.PointLight(0xFFFFFF, 4, 30);  
+const sideLight = new THREE.PointLight(0xFFFFFF, 4, 20);  
 sideLight.position.set(5, 0, 0);
 scene.add(sideLight);
 
-const leftLight = new THREE.PointLight(0xFFFFFF, 3, 20);  
+const leftLight = new THREE.PointLight(0xFFFFFF, 3, 10);  
 leftLight.position.set(-4, 0, 0);  
 scene.add(leftLight);
 
@@ -80,9 +58,10 @@ directionalLight.position.set(5, 5, 5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
 
-const pointLight = new THREE.PointLight(0x777777, 0.3, 30);
+const pointLight = new THREE.PointLight(0x777777, 0.3, 10);
 pointLight.position.set(3, 2, 5);
 scene.add(pointLight);
+
 
 //Add orbit controls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -95,26 +74,6 @@ wireframeBtn.addEventListener('click', function() {
   isWireframe = !isWireframe;
   toggleWireframe(isWireframe);
 })
-
-// Model Animation
-document.getElementById("switchModel").addEventListener('click', function () {
-  if (currentModelPath === 'assets/models/eagles_helmet.gltf' && loadedModel) {
-    if (secondModelActions.length > 0) {
-      secondModelActions.forEach(action => {
-        action.reset();
-        action.setLoop(THREE.LoopOnce);
-        action.clampWhenFinished = true;
-        action.play();
-      });
-
-      if (secondSound.isPlaying) secondSound.stop();
-      secondSound.play();
-    }
-  } else {
-    loadModel('assets/models/eagles_helmet.gltf', true);
-    currentModelPath = 'assets/models/eagles_helmet.gltf';
-  }
-});
 
 //Loads the giTF model
 const loader = new THREE.GLTFLoader();
